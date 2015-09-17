@@ -3,7 +3,7 @@
 // @namespace   https://github.com/pdkl95/user_scripts
 // @description Fold and unfold arbitrary comment subtrees.
 // @include     https://news.ycombinator.com/item*
-// @version     1.0
+// @version     1.1
 // @grant       none
 // ==/UserScript==
 
@@ -124,10 +124,16 @@
       body_pad_el = document.createElement('div');
       body_pad_el.classList.add('comment');
 
+      var comhead_el = header_el.querySelector('.comhead');
+
       if (votebox_el) {
         var icon_width = votebox_el.clientWidth;
         votepad_el.style.width = icon_width;
-        body_pad_el.style.width = '' + (header_el.clientWidth + icon_width) + 'px';
+
+        if (comhead_el) {
+          var comhead_width = comhead_el.clientWidth;
+          body_pad_el.style.width = '' + (comhead_width + icon_width) + 'px';
+        }
       }
       
       header_el.insertBefore(votepad_el, header_el.firstChild);
