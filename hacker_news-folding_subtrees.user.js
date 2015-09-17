@@ -3,7 +3,7 @@
 // @namespace   https://github.com/pdkl95/user_scripts
 // @description Fold and unfold arbitrary comment subtrees.
 // @include     https://news.ycombinator.com/item*
-// @version     1.1
+// @version     1.2
 // @grant       none
 // ==/UserScript==
 
@@ -27,7 +27,8 @@
 */
 
 (function () {
-  var    nesting_width = 40;
+  var  icon_padding_px = 6;
+
   var    post_selector = '.athing';
   var  indent_selector = '.ind';
   var  header_selector = '.default div:nth-child(1)';
@@ -38,7 +39,7 @@
   var style_foldunfold = ".foldunfoldbtn { position: relative; top: -1px; }";
   var style_fold       = '.foldbtn { opacity: 0.5; }';
   var style_unfold     = '.unfoldbtn { opacity: 0.7; }';
-  var style_ctlbox     = '.foldctlbox { position: absolute; padding-left: 0.5em; }'; 
+  var style_ctlbox     = '.foldctlbox { position: absolute; padding-left: ' + icon_padding_px + 'px; }'; 
   var style_list = [style_r90, style_r270, style_foldunfold, style_fold, style_unfold, style_ctlbox];
   
   var extra_style_sheet = document.createElement('style');
@@ -118,6 +119,7 @@
     var body_pad_el = null;
     
     if (header_el) {
+      post_el.header_el = header_el;
       votepad_el = document.createElement('span');
       votepad_el.style.display = 'none';
 
@@ -127,12 +129,12 @@
       var comhead_el = header_el.querySelector('.comhead');
 
       if (votebox_el) {
-        var icon_width = votebox_el.clientWidth;
+        var icon_width = votebox_el.offsetWidth;
         votepad_el.style.width = icon_width;
 
         if (comhead_el) {
-          var comhead_width = comhead_el.clientWidth;
-          body_pad_el.style.width = '' + (comhead_width + icon_width) + 'px';
+          var comhead_width = comhead_el.offsetWidth;
+          body_pad_el.style.width = '' + (comhead_width + icon_width + icon_padding_px) + 'px';
         }
       }
       
